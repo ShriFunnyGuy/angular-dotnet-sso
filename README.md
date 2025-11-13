@@ -68,7 +68,7 @@ See [SETUP.md](./README_SETUP.md) for detailed setup instructions.
 ### Google SSO
 1. User clicks Google sign-in button
 2. Google Identity Services handles authentication seamlessly
-3. ID token sent to backend `/auth/verify-token`
+3. ID token sent to backend `/auth/verify-google-token`
 4. Backend validates token with Google's public keys
 5. User redirected to dashboard
 
