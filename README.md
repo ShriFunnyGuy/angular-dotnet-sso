@@ -1,30 +1,84 @@
-# GoogleSSO
+# Google & Microsoft 365 SSO Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+A secure authentication application supporting both **Google** and **Microsoft 365** Single Sign-On (SSO) with Angular 20 frontend and .NET Core 8 backend.
 
-## Development server
+## Features
 
-To start a local development server, run:
+✅ **Dual Authentication**: Google SSO + Microsoft 365 SSO  
+✅ **Seamless UX**: Google Identity Services (no popup) + MSAL popup for Microsoft  
+✅ **Backend Verification**: Secure token validation on .NET Core backend  
+✅ **Personal Accounts**: Supports @gmail.com, @outlook.com, @hotmail.com, @live.com  
+✅ **User Secrets**: Secure credential storage for development  
+✅ **Modern UI**: Responsive design with Tailwind CSS  
 
+## Development Server
+
+**Start Frontend:**
 ```bash
-ng serve
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+**Start Backend:**
 ```bash
-ng generate component component-name
+cd backend
+dotnet run --launch-profile https
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Frontend: `http://localhost:4200`  
+Backend: `https://localhost:7072`
 
-```bash
-ng generate --help
+## Technology Stack
+
+**Frontend:**
+- Angular 20 (standalone components)
+- TypeScript with RxJS Signals
+- Tailwind CSS
+- Google Identity Services
+- @azure/msal-browser (MSAL.js v2)
+
+**Backend:**
+- .NET Core 8 Web API
+- Google.Apis.Auth (v1.72.0)
+- Microsoft.Identity.Web (v3.2.2)
+- System.IdentityModel.Tokens.Jwt (v8.1.2)
+
+## Quick Start
+
+See [SETUP.md](./README_SETUP.md) for detailed setup instructions.
+
+## Project Structure
+
 ```
+├── src/
+│   ├── app/
+│   │   ├── models/              # User models and enums
+│   │   ├── services/            # Auth service (Google + Microsoft)
+│   │   ├── pages/               # Login and Dashboard pages
+│   │   └── guards/              # Route guards
+│   └── environments/            # Environment configs
+├── backend/
+│   ├── Controllers/             # AuthController (token verification)
+│   ├── appsettings.json        # Configuration (empty values)
+│   └── Program.cs              # Application startup
+└── docs/                        # Additional documentation
+```
+
+## Authentication Flow
+
+### Google SSO
+1. User clicks Google sign-in button
+2. Google Identity Services handles authentication seamlessly
+3. ID token sent to backend `/auth/verify-token`
+4. Backend validates token with Google's public keys
+5. User redirected to dashboard
+
+### Microsoft SSO
+1. User clicks Microsoft sign-in button
+2. MSAL popup opens for authentication
+3. ID token received from Microsoft Azure AD
+4. Token sent to backend `/auth/verify-microsoft-token`
+5. Backend validates JWT (audience, tenant, expiration)
+6. User redirected to dashboard
 
 ## Building
 
@@ -35,6 +89,19 @@ ng build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Security
+
+- **User Secrets**: OAuth credentials stored outside source control
+- **Backend Validation**: All tokens verified server-side
+- **HTTPS**: Development uses self-signed certificates
+- **CORS**: Configured for specific frontend origin
+
+## Documentation
+
+- [Setup Guide](./README_SETUP.md) - Complete setup instructions
+- [Microsoft SSO Setup](./MICROSOFT_SSO_SETUP.md) - Azure AD configuration
+- [Backend Documentation](./backend/README.md) - API endpoints and validation
 
 ## Running unit tests
 

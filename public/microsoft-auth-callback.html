@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microsoft Auth Callback</title>
+</head>
+<body>
+    <script>
+        // Extract the ID token from the URL fragment
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const idToken = params.get('id_token');
+        const error = params.get('error');
+        const errorDescription = params.get('error_description');
+
+        if (idToken) {
+            // Send token to parent window
+            window.opener.postMessage({
+                type: 'microsoft-auth-success',
+                idToken: idToken
+            }, window.location.origin);
+        } else if (error) {
+            // Send error to parent window
+            window.opener.postMessage({
+                type: 'microsoft-auth-error',
+                error: errorDescription || error
+            }, window.location.origin);
+        }
+
+        // Close the popup
+        window.close();
+    </script>
+    <p>Processing authentication... You can close this window if it doesn't close automatically.</p>
+</body>
+</html>

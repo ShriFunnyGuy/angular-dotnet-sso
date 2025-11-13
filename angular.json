@@ -42,7 +42,24 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "test": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -57,6 +74,9 @@
           "configurations": {
             "production": {
               "buildTarget": "googleSSO:build:production"
+            },
+            "test": {
+              "buildTarget": "googleSSO:build:test"
             },
             "development": {
               "buildTarget": "googleSSO:build:development"
@@ -88,5 +108,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
